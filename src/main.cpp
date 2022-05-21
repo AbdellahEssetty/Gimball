@@ -7,6 +7,9 @@
  #include "Wire.h"
  #include <MPU6050_light.h>
  #include "Gimball.h"
+ #include <ServoCustom.h>
+
+
 
 
  
@@ -14,10 +17,12 @@
   MpuCustom mpu;
   Gimball gimball;
 
+  Servo servo;
 
  void setup() 
  {
-   mpu.init();
+  //  mpu.init();
+   servo.attach(17);
    Serial.begin(9600);
  }
 
@@ -26,16 +31,30 @@
 
  void loop()
   {
-   mpu.update();
-   if ((millis() - timer) > 500)
-   { // print data every 10ms
-      // gimball.resetPosition();
-      // mpu.getMeans();
+  //  mpu.update();
+  //  if ((millis() - timer) > 500)
+  //  { // print data every 10ms
+  //     // gimball.resetPosition();
+  //     // mpu.getMeans();
       
-      gimball.resetPosition(mpu);
-      gimball.printData();
-      mpu.printData();
-      timer = millis();
-   }
+  //     gimball.resetPosition(mpu);
+  //     gimball.printData();
+  //     mpu.printData();
+  //     timer = millis();
+  //  }
   //  delay(1000);
+
+  // servo.setEasingFunction(EasingFunctions::linear);
+  // servo.test();
+  // delay(1000);
+
+  // servo.setEasingFunction(EasingFunctions::easeInQuadratic);
+  // servo.test();
+
+  for (size_t i = 0; i < 1400; i++)
+  {
+    servo.writeMicroseconds(i + 800);
+  }
+  
+  
  }
