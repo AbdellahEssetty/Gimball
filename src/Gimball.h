@@ -19,12 +19,15 @@ public:
     void resetPosition(MpuCustom& mpu)
     {
         getAngles(mpu);
-        servoX.setEasingType(EASE_CUBIC_IN_OUT);
-        servoX.easeTo(angleX, 40); 
-        servoY.setEasingType(EASE_CUBIC_IN_OUT);
-        servoY.easeTo(angleY, 45);
-        servoZ.setEasingType(EASE_CUBIC_IN_OUT);
-        servoZ.easeTo(angleZ, 45);
+        servoX.setEasingType(EASE_QUARTIC_OUT);
+        // servoX.easeTo(angleX, 80); 
+        servoX.startEaseTo(angleX, 45);
+        servoY.setEasingType(EASE_QUARTIC_OUT);
+        // servoY.easeTo(angleY, 80);
+        servoY.startEaseTo(angleY, 45);
+        servoZ.setEasingType(EASE_QUARTIC_OUT);
+        // servoZ.easeTo(angleZ, 80);
+        servoZ.startEaseTo(angleZ, 45);
     }
 
     void printData()
