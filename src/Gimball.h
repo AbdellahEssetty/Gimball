@@ -1,7 +1,8 @@
 #include <ESP32Servo.h>
 #include <Arduino.h>
-#include "Wire.h"
+#include <Wire.h>
 #include <MPU6050_light.h>
+#include <ServoEasing.hpp>
 #include "MpuCustom.h"
 
 class Gimball{
@@ -9,18 +10,21 @@ public:
 
     Gimball()
     {
-        servoX.attach(servoXPin);
-        servoY.attach(servoYPin);
-        servoZ.attach(servoZPin);
+        servoX.attach(servoXPin, 90);
+        servoY.attach(servoYPin, 90);
+        servoZ.attach(servoZPin, 90);
         Serial.println("Servos setted successfully");
     }
 
     void resetPosition(MpuCustom& mpu)
     {
         getAngles(mpu);
-        servoX.write(angleX);
-        servoY.write(angleY);
-        servoZ.write(angleZ);
+        servoX.setEasingType(EASE_CUBIC_IN_OUT);
+        servoX.easeTo(angleX, 40); 
+        servoY.setEasingType(EASE_CUBIC_IN_OUT);
+        servoY.easeTo(angleY, 45);
+        servoZ.setEasingType(EASE_CUBIC_IN_OUT);
+        servoZ.easeTo(angleZ, 45);
     }
 
     void printData()
@@ -44,9 +48,9 @@ private:
 
 private:
 // Servos obyects.
-    Servo servoX;
-    Servo servoY;
-    Servo servoZ;
+    ServoEasing servoX;
+    ServoEasing servoY;
+    ServoEasing servoZ;
 // Servos pins.
     const int servoXPin = 17;
     const int servoYPin = 18;
